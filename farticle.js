@@ -103,12 +103,6 @@
 		window.requestAnimationFrame(redraw);
 	}
 
-	var mouseX, mouseY;
-	window.onmousemove = function(event) {
-		mouseX = event.clientX;
-		mouseY = event.clientY;
-	};
-
 	function resize() {
         canvas.width = document.documentElement.clientWidth;
         canvas.height = document.documentElement.clientHeight;
@@ -116,6 +110,12 @@
 
 	window.onresize = resize;
 	resize();
+
+	var mouseX = canvas.width / 2, mouseY = canvas.height / 2;
+	window.onmousemove = function(event) {
+		mouseX = event.clientX;
+		mouseY = event.clientY;
+	};
 
 	window.requestAnimationFrame(redraw);
 
