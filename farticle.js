@@ -27,14 +27,15 @@
 
 	function createParticle(x, y) {
 		return {
-			x: x + randSpread(5), y: y + randSpread(2),
-			size: randRange(2, 15),
+			x: x + randSpread(10), y: y + randSpread(5),
+			size: randRange(2, 18),
 			vx: randSpread(1), vy: randRange(-5, -2),
-			color: hsla(100, 1, 0.5, 1),
+			color: hsla(50, 1, 0.5 + randSpread(0.05), 1),
 		};
 	}
 
-	var gravity = { x: 0, y: 0.01 };
+	var gravity = { x: 0, y: 0 };
+	var drag = { x: 0.99, y: 0.99 };
 	function updateParticle(P, step) {
 		P.x += P.vx * step;
 		P.y += P.vy * step;
@@ -42,13 +43,15 @@
 		P.vx += gravity.x * step;
 		P.vy += gravity.y * step;
 
+		P.vx *= drag.x;
+		P.vy *= drag.y;
+
 		P.color.h *= 0.95;
-		P.color.s *= 0.99;
-		P.size *= 0.992;
+		P.color.s *= 0.98;
+		P.size *= 0.96;
 	}
 
 	function drawParticle(ctx, P) {
-		ctx.globalCompositeOperation = 'overlay';
 		ctx.fillStyle = hslaString(P.color);
 		var size = Math.ceil(P.size);
 		var hsize = Math.floor(size/2);
