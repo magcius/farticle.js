@@ -72,6 +72,12 @@
 	var fps = 30;
 	var lastTimestamp = 0;
 
+	function emitParticle(x, y) {
+		var P = createParticle(x, y);
+		particles.push(P);
+		return P;
+	}
+
 	function redraw(timestamp) {
 		var delta = timestamp - lastTimestamp;
 		var step = delta / fps;
@@ -80,6 +86,9 @@
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 		particles = particles.filter(isParticleAlive);
+
+		for (var i = 0; i < 15; i++)
+			emitParticle(mouseX, mouseY);
 
 		particles.forEach(function(P) {
 			drawParticle(ctx, P);
@@ -91,22 +100,7 @@
 		window.requestAnimationFrame(redraw);
 	}
 
-	function emitParticle(x, y) {
-		var P = createParticle(x, y);
-		particles.push(P);
-		return P;
-	}
-
 	var mouseX, mouseY;
-	function emitParticles() {
-		setTimeout(emitParticles, 1);
-
-		if (mouseX === undefined)
-			return;
-
-		for (var i = 0; i < 4; i++)
-			emitParticle(mouseX, mouseY);
-	}
 	window.onmousemove = function(event) {
 		mouseX = event.clientX;
 		mouseY = event.clientY;
@@ -119,7 +113,6 @@
 
 	window.onresize = resize;
 	resize();
-	emitParticles();
 
 	window.requestAnimationFrame(redraw);
 
