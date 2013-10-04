@@ -43,12 +43,12 @@
 		P.vx += gravity.x * step;
 		P.vy += gravity.y * step;
 
-		P.vx *= drag.x;
-		P.vy *= drag.y;
+		P.vx *= Math.pow(drag.x, step);
+		P.vy *= Math.pow(drag.y, step);
 
-		P.color.h *= 0.95;
-		P.color.s *= 0.98;
-		P.size *= 0.96;
+		P.color.h *= Math.pow(0.95, step);
+		P.color.s *= Math.pow(0.98, step);
+		P.size *= Math.pow(0.96, step);
 	}
 
 	function drawParticle(ctx, P) {
@@ -72,18 +72,18 @@
 
 	var particles = [];
 
-	var fps = 30;
-	var lastTimestamp = 0;
-
 	function emitParticle(x, y) {
 		var P = createParticle(x, y);
 		particles.push(P);
 		return P;
 	}
 
+	var fps = 30;
+	var normalDelta = (1000 / fps);
+	var lastTimestamp = 0;
 	function redraw(timestamp) {
 		var delta = timestamp - lastTimestamp;
-		var step = delta / fps;
+		var step = delta / normalDelta;
 		lastTimestamp = timestamp;
 
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
