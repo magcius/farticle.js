@@ -28,7 +28,7 @@
 	function createParticle(x, y) {
 		return {
 			x: x + randSpread(10), y: y + randSpread(5),
-			size: randRange(2, 18),
+			size: randRange(2, 22),
 			vx: randSpread(1), vy: randRange(-5, -2),
 			color: hsla(50, 1, 0.5 + randSpread(0.05), 1),
 		};
@@ -53,9 +53,9 @@
 
 	function drawParticle(ctx, P) {
 		ctx.fillStyle = hslaString(P.color);
-		var size = Math.ceil(P.size);
-		var hsize = Math.floor(size/2);
-		ctx.fillRect(P.x - hsize, P.y - hsize, size, size);
+		ctx.beginPath();
+		ctx.arc(P.x, P.y, P.size/2, 0, 2*Math.PI);
+		ctx.fill();
 	}
 
 	function isParticleAlive(P) {
@@ -65,7 +65,7 @@
 			return false;
 		if (P.color.a <= 0)
 			return false;
-		if (Math.round(P.size) <= 0)
+		if (P.size <= 0.25)
 			return false;
 		return true;
 	}
